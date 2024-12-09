@@ -16,14 +16,13 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 10000); // Change image every 5 seconds
+    }, 10000);
 
-    return () => clearInterval(interval); // Cleanup on component unmount
+    return () => clearInterval(interval);
   }, [images.length]);
 
   return (
     <div className="relative w-full h-screen overflow-hidden">
-      {/* Slideshow */}
       <div className="absolute inset-0">
         {images.map((image, index) => (
           <img
@@ -37,9 +36,8 @@ const Hero = () => {
         ))}
       </div>
 
-      {/* Hero Content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-50 gap-4">
-        <h1 className="text-4xl font-bold">Welcome to TourReview</h1>
+        <h1 className="text-4xl font-bold">Welcome to HotelReview</h1>
         <p className="text-xl font-semibold">Explore the best destinations now</p>
         <Link to="/home" className="border-2 rounded-full border-blue-500 text-blue-500 px-3 py-2 text-xl font-bold flex flex-row items-center hover:text-blue-500 hover:no-underline">
           <span className="pr-2">Get started!</span>

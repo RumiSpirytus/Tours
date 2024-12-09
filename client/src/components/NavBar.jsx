@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaHotel, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { FaHotel, FaPlusCircle, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -26,10 +26,14 @@ const NavBar = () => {
               {showDropdown && (
                 <>
                   <div
-                    className="absolute right-2 shadow-md flex flex-col items-center gap-4 p-4 bg-white rounded-xl"
+                    className="absolute right-2 shadow-md flex flex-col items-start gap-4 p-4 bg-white rounded-xl w-36"
                     onClick={toggleDropdown}
                   >
-                    <button className="text-red-500 text-center flex flex-row gap-2 items-center">
+                    <Link to="/createHotel" className="flex flex-row gap-2 items-center hover:no-underline hover:text-black">
+                      <FaPlusCircle />
+                      <span>Add hotel</span>
+                    </Link>
+                    <button className="text-red-500 flex flex-row gap-2 items-center">
                       <FaSignOutAlt />
                       <span>Logout</span>
                     </button>

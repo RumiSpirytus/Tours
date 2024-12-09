@@ -11,6 +11,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Hero from "./components/Hero";
 import Hotel from "./pages/hotel/Hotel";
+import CreateHotel from "./pages/createHotel/CreateHotel";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -43,6 +44,14 @@ const App = () => {
       <>
         <NavBar/>
         <Hotel/>
+      </>
+    },
+    {
+      path: '/createHotel',
+      element: 
+      <>
+        <NavBar/>
+        <CreateHotel/>
       </>
     },
   ]);

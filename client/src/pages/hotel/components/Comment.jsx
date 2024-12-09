@@ -1,38 +1,26 @@
 import React, { useState } from "react";
-import { FaThumbsUp, FaUserCircle } from "react-icons/fa";
+import axios from "axios"
+import { FaUserCircle } from "react-icons/fa";
 import moment from "moment";
 
 const Comment = ({ comment }) => {
-  const [replies, setReplies] = useState(comment.replies || []);
-  const [showReplyBox, setShowReplyBox] = useState(false);
-  const [newReply, setNewReply] = useState("");
-  const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(comment.likes);
-
-  const addReply = () => {
-    if (newReply.trim()) {
-      setReplies([
-        ...replies,
-        {
-          id: Date.now(),
-          text: newReply,
-          likes: 0,
-          date: Date.now(),
-          replies: [],
-        },
-      ]);
-      setNewReply("");
-      setShowReplyBox(false);
+  const [modelResponse, setModelResponse] = useState();
+  const [model, setModel] = useState();
+  const generateByModel = async (model) => {
+    setModel('');
+    setModelResponse('');
+    try {
+      console.log(`Generating model: ${model}`);
+      const response = await axios.post(`http://localhost:8000/api/v1/reviews`, {
+        comments: comment.content,
+        model,
+      });
+      console.log(response);
+      setModel(model);
+      setModelResponse(response.data.result);
+    } catch (error) {
+      console.log("Model error: ", error);
     }
-  };
-
-  const addLike = () => {
-    if (liked) {
-      setLikes(likes - 1);
-    } else {
-      setLikes(likes + 1);
-    }
-    setLiked(!liked);
   };
 
   return (
@@ -48,48 +36,36 @@ const Comment = ({ comment }) => {
         </div>
 
         <div className="mb-2">
-          <p className="font-semibold">{comment.text}</p>
+          <p className="font-semibold">{comment.content}</p>
           <div className="flex flex-row gap-2">
-            <div className="flex flex-row gap-1 items-center">
-              <button onClick={addLike} className="focus:outline-none">
-                <FaThumbsUp
-                  className={`${liked ? "text-blue-500" : "text-gray-300"}`}
-                />
-              </button>
-              <span>{likes}</span>
-            </div>
             <button
-              onClick={() => setShowReplyBox(!showReplyBox)}
+              onClick={() => generateByModel("knn")}
               className="text-blue-500 text-sm focus:outline-none"
             >
-              {showReplyBox ? "Cancel" : "Reply"}
+              KNN
             </button>
-          </div>
-        </div>
-
-        {showReplyBox && (
-          <div className="mb-4">
-            <textarea
-              value={newReply}
-              onChange={(e) => setNewReply(e.target.value)}
-              className="w-full p-2 border rounded-md resize-none"
-              rows="3"
-              placeholder="Write your reply..."
-            />
+            {
+              model === "knn" && <span>{modelResponse}</span>
+            }
             <button
-              onClick={addReply}
-              className="mt-2 bg-blue-500 text-white px-4 py-1 rounded-md disabled:bg-gray-300"
-              disabled={!newReply}
+              onClick={() => generateByModel("bayes")}
+              className="text-blue-500 text-sm focus:outline-none"
             >
-              Post Reply
+              Bayes
             </button>
+            {
+              model === "bayes" && <span>{modelResponse}</span>
+            }
+            <button
+              onClick={() => generateByModel("tree")}
+              className="text-blue-500 text-sm focus:outline-none"
+            >
+              Tree
+            </button>
+            {
+              model === "tree" && <span>{modelResponse}</span>
+            }
           </div>
-        )}
-
-        <div>
-          {replies.map((reply) => (
-            <Comment key={reply.id} comment={reply} />
-          ))}
         </div>
       </div>
     </div>

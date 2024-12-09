@@ -1,74 +1,100 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
 import Comment from './Comment';
 
-const CommentSection = () => {
-  const commentList = [
-    {
-      id: 1,
-      text: "This is the first comment.",
-      likes: 5,
-      date: new Date("2024-11-07"),
-      replies: [
-        {
-          id: 2,
-          text: "This is a reply to the first comment.",
-          likes: 3,
-          date: new Date("2024-11-08"),
-          replies: [
-            {
-              id: 3,
-              text: "This is a reply to the reply.",
-              likes: 2,
-              date: new Date("2024-11-15"),
-              replies: [],
-            },
-          ],
-        },
-        {
-          id: 6,
-          text: "This is a reply to the first comment.",
-          likes: 3,
-          date: new Date("2024-12-01"),
-          replies: [
-            {
-              id: 7,
-              text: "This is a reply to the reply.",
-              likes: 2,
-              date: new Date("2024-12-03"),
-              replies: [],
-            },
-          ],
-        },
-        {
-          id: 4,
-          text: "This is another reply to the first comment.",
-          likes: 1,
-          date: new Date("2024-12-08"),
-          replies: [],
-        },
-      ],
-    },
-    {
-      id: 5,
-      text: "This is a second top-level comment.",
-      likes: 8,
-      date: new Date("2023-11-11"),
-      replies: [],
-    },
-  ];
+const CommentSection = ({ hotelId }) => {
+  // const commentList = [
+  //   {
+  //     id: 1,
+  //     content: "This is the first comment.",
+  //     likes: 5,
+  //     date: new Date("2024-11-07"),
+  //     replies: [
+  //       {
+  //         id: 2,
+  //         content: "This is a reply to the first comment.",
+  //         likes: 3,
+  //         date: new Date("2024-11-08"),
+  //         replies: [
+  //           {
+  //             id: 3,
+  //             content: "This is a reply to the reply.",
+  //             likes: 2,
+  //             date: new Date("2024-11-15"),
+  //             replies: [],
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         id: 6,
+  //         content: "This is a reply to the first comment.",
+  //         likes: 3,
+  //         date: new Date("2024-12-01"),
+  //         replies: [
+  //           {
+  //             id: 7,
+  //             content: "This is a reply to the reply.",
+  //             likes: 2,
+  //             date: new Date("2024-12-03"),
+  //             replies: [],
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         id: 4,
+  //         content: "This is another reply to the first comment.",
+  //         likes: 1,
+  //         date: new Date("2024-12-08"),
+  //         replies: [],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 5,
+  //     content: "This is a second top-level comment.",
+  //     likes: 8,
+  //     date: new Date("2023-11-11"),
+  //     replies: [],
+  //   },
+  // ];
 
-  const [comments, setComments] = useState(commentList);
+  const [comments, setComments] = useState();
   const [newComment, setNewComment] = useState('');
 
-  const addComment = () => {
+  useEffect(() => {
+    fetchComment();
+  }, [hotelId]);
+
+  const fetchComment = async () => {
+    try {
+      const response = await axios.get(`http://localhost:4001/hotels/${hotelId}/comments`);
+      setComments(Object.values(response.data));
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  }
+
+  const addComment = async () => {
     if (newComment.trim()) {
-      setComments([
-        ...comments,
-        { id: Date.now(), text: newComment, replies: [] },
-      ]);
-      setNewComment("");
+      try {
+        const response = await axios.post(`http://localhost:4001/hotels/${hotelId}/comments`, {
+          content: newComment,
+          date: new Date(),
+          likes: 0,
+          replies: [],
+        });
+  
+        fetchComment()
+        setNewComment("");
+      } catch (error) {
+        console.error("Error adding comment:", error);
+      }
     }
   };
+
+  if (comments === undefined) {
+    return <div>Loading...</div>
+  }
 
   return (
     <div>
