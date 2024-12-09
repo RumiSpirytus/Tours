@@ -5,14 +5,12 @@ import {
   RouterProvider,
   Navigate
 } from 'react-router-dom'
-import PostCreate from "./PostCreate";
-import PostList from "./PostList";
 import NavBar from "./components/NavBar";
 import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Hero from "./components/Hero";
-import Tour from "./pages/tour/Tour";
+import Hotel from "./pages/hotel/Hotel";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -40,11 +38,11 @@ const App = () => {
       element: <Register/>
     },
     {
-      path: '/tour/:id',
+      path: '/hotel/:id',
       element: 
       <>
         <NavBar/>
-        <Tour/>
+        <Hotel/>
       </>
     },
   ]);

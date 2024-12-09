@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaPlane, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { FaHotel, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
@@ -12,8 +12,8 @@ const NavBar = () => {
       <div className="h-24"></div>
       <div className="fixed z-50 p-4 w-full top-0 left-0 right-0 shadow-md backdrop-blur flex flex-row justify-between">
         <Link to="/home" className="flex flex-row items-center gap-2 font-bold text-xl text-blue-500 ml-12 hover:no-underline hover:text-blue-500">
-          <FaPlane />
-          <span>TourReview</span>
+          <FaHotel />
+          <span>HotelReview</span>
         </Link>
         <div className="relative mr-12">
           { user ? 
