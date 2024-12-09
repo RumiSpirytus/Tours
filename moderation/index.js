@@ -15,7 +15,7 @@ app.post('/events', async (req, res) => {
       type: 'CommentModerated',
       data: {
         id: data.id,
-        postId: data.postId,
+        hotelId: data.hotelId,
         status,
         content: data.content
       }
