@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotels-deployment
+  labels:
+    app: hotels
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hotels
+  template:
+    metadata:
+      labels:
+        app: hotels
+    spec:
+      containers:
+        - name: hotels
+          image: rumispirytus/hotels-hotels:latest
