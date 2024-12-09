@@ -8,27 +8,27 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const posts = {};
+const hotels = {};
 
 const handleEvent = (type, data) => {
-  if (type === "PostCreated") {
-    const { id, title } = data;
+  if (type === "HotelCreated") {
+    const { id, title, description } = data;
 
-    posts[id] = { id, title, comments: [] };
+    hotels[id] = { id, title, description, comments: [] };
   }
 
   if (type === "CommentCreated") {
-    const { id, content, postId, status } = data;
+    const { id, content, hotelId, status } = data;
 
-    const post = posts[postId];
-    post.comments.push({ id, content, status });
+    const hotel = hotels[hotelId];
+    hotel.comments.push({ id, content, status });
   }
 
   if (type === "CommentUpdated") {
-    const { id, content, postId, status } = data;
+    const { id, content, hotelId, status } = data;
 
-    const post = posts[postId];
-    const comment = post.comments.find((comment) => {
+    const hotel = hotels[hotelId];
+    const comment = hotel.comments.find((comment) => {
       return comment.id === id;
     });
 
@@ -38,7 +38,7 @@ const handleEvent = (type, data) => {
 };
 
 app.get("/posts", (req, res) => {
-  res.send(posts);
+  res.send(hotels);
 });
 
 app.post("/events", (req, res) => {
