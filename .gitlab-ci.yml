@@ -1,0 +1,14 @@
+stages:
+  - lint
+
+lint:
+  image: node:16  # Use a Node.js Docker image
+  stage: lint
+  before_script:
+    - npm install -g eslint  # Install ESLint globally
+    - npm install  # Install project dependencies (if you have a package.json)
+  script:
+    - eslint .  # Run ESLint on the entire project (adjust the path if needed)
+  only:
+    - merge_requests  # Run linting only for merge requests
+    - master  # Optionally, run on the master branch as well
