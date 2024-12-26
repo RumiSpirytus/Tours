@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const HotelCard = ({ hotel }) => {
+const HotelCard = ({ hotel, index }) => {
   return (
     <div className="w-full h-[500px] border-2 shadow-md rounded-xl overflow-hidden flex flex-col hover:text-black hover:no-underline">
       <div className="flex-shrink-0 w-full h-1/3">
-        <img src="/assets/hotel-1.jpg" alt={hotel.title} className="w-full h-full object-cover" />
+        <img src={`/assets/hotel-${(index % 6) + 1}.jpg`} alt={hotel.title} className="w-full h-full object-cover" />
       </div>
 
       <div className="flex-grow p-4">

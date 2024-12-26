@@ -4,6 +4,7 @@ import axios from 'axios';
 const CreateHotel = () => {
   const [hotel, setHotel] = useState({
     name: '',
+    address: '',
     description: '',
     img: '',
   });
@@ -35,6 +36,7 @@ const CreateHotel = () => {
 
       setHotel({
         name: '',
+        address: '',
         description: '',
         img: '',
       });
@@ -112,7 +114,7 @@ const CreateHotel = () => {
           <div className="flex justify-end mt-4">
             <button
               type="button"
-              className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 disabled:bg-blue-600"
+              className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600"
               onClick={createHotel}
               disabled={!(hotel.img && hotel.description && hotel.name)}
             >

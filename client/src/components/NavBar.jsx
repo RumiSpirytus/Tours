@@ -1,11 +1,13 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import React, { useState } from 'react'
 import { FaHotel, FaPlusCircle, FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
-  const user = true;
+  const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   const [showDropdown, setShowDropdown] = useState(false);
-  const toggleDropdown = () => setShowDropdown(prev => !prev)
+  const toggleDropdown = () => setShowDropdown(prev => !prev);
+  console.log(user, isLoading);
 
   return (
     <>
@@ -16,7 +18,7 @@ const NavBar = () => {
           <span>HotelReview</span>
         </Link>
         <div className="relative mr-12">
-          { user ? 
+          { !isLoading && user && 
             <>
               <div 
                 className="cursor-pointer border-2 border-black rounded-full p-2 border-blue-500 text-blue-500"
@@ -33,18 +35,20 @@ const NavBar = () => {
                       <FaPlusCircle />
                       <span>Add hotel</span>
                     </Link>
-                    <button className="text-red-500 flex flex-row gap-2 items-center">
+                    <button className="text-red-500 flex flex-row gap-2 items-center" onClick={() => logout()}>
                       <FaSignOutAlt />
                       <span>Logout</span>
                     </button>
                   </div>
                 </>
               )}
-            </> : 
-            <Link to="login" className="font-bold text-xl flex flex-row items-center gap-2 hover:no-underline hover:text-blue-500">
+            </>
+          }
+          { !isLoading && !user &&
+            <button className="text-blue-500 flex flex-row gap-2 items-center" onClick={() => loginWithRedirect()}>
               <FaSignInAlt />
               <span>Login</span>
-            </Link>
+            </button>
           }
         </div>
       </div>

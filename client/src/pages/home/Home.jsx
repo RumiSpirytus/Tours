@@ -25,8 +25,8 @@ const Home = () => {
 
   return (
     <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-8 p-12">
-      {hotels.map((hotel) => (
-        <HotelCard hotel={hotel} key={hotel.id} />
+      {hotels.map((hotel, index) => (
+        <HotelCard hotel={hotel} index={index} key={hotel.id} />
       ))}
     </div>
   );

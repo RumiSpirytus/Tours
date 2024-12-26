@@ -22,7 +22,7 @@ const Hotel = () => {
   }, [id]);
 
   if (hotel === undefined) {
-    return <div>Loading...</div>; 
+    return <div></div>; 
   }
 
   return (

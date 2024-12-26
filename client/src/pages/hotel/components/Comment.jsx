@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios"
-import { FaUserCircle } from "react-icons/fa";
 import moment from "moment";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Comment = ({ comment }) => {
+  const { user } = useAuth0();
   const [modelResponse, setModelResponse] = useState();
   const [model, setModel] = useState();
   const generateByModel = async (model) => {
@@ -23,15 +24,19 @@ const Comment = ({ comment }) => {
     }
   };
 
+  if (!user) {
+    return <div></div>
+  }
+
   return (
     <div className="flex flex-row gap-2 border-l border-gray-300 pl-4 my-2">
-      <div className="w-6 h-6">
-        <FaUserCircle className="w-full h-full text-gray-500 text-3xl" />
+      <div className="w-12 h-6 rounded-full overflow-hidden flex items-center justify-center">
+        <img src={user.picture} alt="User" className="w-full h-full object-cover" />
       </div>
 
       <div className="flex flex-col">
         <div>
-          <span>Username</span>
+          <span>{user.name}</span>
           <span className="text-gray-500"> - {moment(comment.date).fromNow()}</span>
         </div>
 
@@ -44,6 +49,7 @@ const Comment = ({ comment }) => {
             >
               KNN
             </button>
+            <span>positive</span>
             {
               model === "knn" && <span>{modelResponse}</span>
             }
